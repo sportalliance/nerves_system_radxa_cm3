@@ -1,0 +1,114 @@
+# Generic RK3566 (Radxa CM3, Pine64 SOQuartz) Support
+
+
+This is the base Nerves System configuration for the [Radxa CM3](https://wiki.radxa.com/Rock3/CM/CM3) and [Pine64 SOQuartz](https://wiki.pine64.org/wiki/SOQuartz).
+
+
+
+| Feature              | Description                     |
+| -------------------- | ------------------------------- |
+| CPU                  | TODO             |
+| Memory               | TODO                    |
+| Storage              | only eMMC supported (SD-Card support can be enabled by editing the u-boot environment) |
+| Linux kernel         | 4.19 w/ Rockchip patches              |
+| IEx terminal         | SSH                   |
+| GPIO, I2C, SPI       | Yes - [Elixir Circuits](https://github.com/elixir-circuits) |
+| ADC                  | Untested                             |
+| PWM                  | Untested      |
+| UART                 | ttyS1 + ttyS2 + more via device tree overlay |
+| Camera               | Disabled                           |
+| Ethernet             | Yes                             |
+| WiFi                 | Disabled, No working driver |
+| HW Watchdog          | ? |
+
+## TODOs
+
+- [ ] Kernel >= 5.10
+- [ ] Update packages (RKBIN, u-boot, toolchain, buildroot, ...)
+- [x] Implement A/B firmware updates (update u-boot environment)
+- [ ] Clean up
+
+## Using
+
+The most common way of using this Nerves System is create a project with `mix
+nerves.new` and to export `MIX_TARGET=rcm3`. See the [Getting started
+guide](https://hexdocs.pm/nerves/getting-started.html#creating-a-new-nerves-app)
+for more information.
+
+If you need custom modifications to this system for your device, clone this
+repository and update as described in [Making custom
+systems](https://hexdocs.pm/nerves/customizing-systems.html).
+
+## Flashing
+
+1. Clone, Build and Install the [rkdeveloptool](https://github.com/rockchip-linux/rkdeveloptool.git)
+1. Compile the project (`mix firmware`)
+1. Create the image file (`fwup -a -d _build/<target name>/nerves/images/image.img -i _build/<target name>/nerves/images/<project name>.fw -t complete`)
+1. Put the board in maskrom mode and conenct it via USB to the PC
+    - Radxa CM3: Power off the board, press the yellow button next to the WIFI chip, power on the board
+    - Pine64 SOQuartz: Remove the eMMC module, power-on the board, connect the eMMC module again
+1. `sudo rkdeveloptool db support_files/rk356x_spl_loader_ddr1056_v1.10.111.bin`
+1. `sudo rkdeveloptool wl 0 _build/<target name>/nerves/images/image.img`
+1. `sudo rkdeveloptool rd`
+
+## Console access
+
+The console is currently not configured.
+It can be enabled by modifying the boot arguments in `boot.env` and including the
+relevant device tree overlay (`rk3568-fiq-debugger-uart2m0`).
+
+## Provisioning devices
+
+This system supports storing provisioning information in a small key-value store
+outside of any filesystem. Provisioning is an optional step and reasonable
+defaults are provided if this is missing.
+
+Provisioning information can be queried using the Nerves.Runtime KV store's
+[`Nerves.Runtime.KV.get/1`](https://hexdocs.pm/nerves_runtime/Nerves.Runtime.KV.html#get/1)
+function.
+
+Keys used by this system are:
+
+Key                    | Example Value     | Description
+:--------------------- | :---------------- | :----------
+`nerves_serial_number` | `"12345678"`       | By default, this string is used to create unique hostnames and Erlang node names. If unset, it defaults to part of the module's serial number.
+
+The normal procedure would be to set these keys once in manufacturing or before
+deployment and then leave them alone.
+
+For example, to provision a serial number on a running device, run the following
+and reboot:
+
+```elixir
+iex> cmd("fw_setenv nerves_serial_number 12345678")
+```
+
+This system supports setting the serial number offline. To do this, set the
+`NERVES_SERIAL_NUMBER` environment variable when burning the firmware. If you're
+programming MicroSD cards using `fwup`, the commandline is:
+
+```sh
+sudo NERVES_SERIAL_NUMBER=12345678 fwup path_to_firmware.fw
+```
+
+Serial numbers are stored on the MicroSD card so if the MicroSD card is
+replaced, the serial number will need to be reprogrammed. The numbers are stored
+in a U-boot environment block. This is a special region that is separate from
+the application partition so reformatting the application partition will not
+lose the serial number or any other data stored in this block.
+
+Additional key value pairs can be provisioned by overriding the default
+provisioning.conf file location by setting the environment variable
+`NERVES_PROVISIONING=/path/to/provisioning.conf`. The default provisioning.conf
+will set the `nerves_serial_number`, if you override the location to this file,
+you will be responsible for setting this yourself.
+
+## Linux, U-Boot and Toolchain versions
+
+Nerves uses the Radxa Kernel and U-Boot repos which add patches for the RK3566 CPU.
+The Toolchain is currently set to v1.4.3 (GCC 10), because newer toolchain versions cause a kernel panic when booting (`FATAL Kernel too old`).
+
+## Device tree overlays
+
+Currently almost all hw-functions are disabled via the `rk3566-radxa-cm3-spa.dtb` file.
+The can be re-enabled by using the upstream `rk3566-radxa-cm3-io.dtb` or `rk3566-radxa-cm3-rpi-cm4-io.dtb` overlay. You can do this by editing the `vars.txt` and `fwup.conf` files.

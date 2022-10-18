@@ -1,0 +1,3 @@
+overlays=rk3568-fiq-debugger-uart2m0
+fdtfile=rockchip/rk3566-radxa-cm3-spa.dtb
+extra_bootargs="earlyprintk console=ttyS2,1500000n8"
