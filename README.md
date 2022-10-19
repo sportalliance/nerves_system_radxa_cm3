@@ -51,6 +51,35 @@ systems](https://hexdocs.pm/nerves/customizing-systems.html).
 1. `sudo rkdeveloptool wl 0 _build/<target name>/nerves/images/image.img`
 1. `sudo rkdeveloptool rd`
 
+## GPIO Numbering
+
+The RK3566 has multiple IO banks, GPIO0 to GPIO4, with each bank having 32 pins.
+These banks are further divided into 4 sub-banks, GPIOx_A to GPIOx_D:
+```
+GPIO0_A0 - GPIO0_A7
+GPIO0_B0 - GPIO0_B7
+GPIO0_C0 - GPIO0_C7
+GPIO0_D0 - GPIO0_D7
+GPIO1_A0 - GPIO1_A7
+.
+.
+.
+GPIO4_D0 - GPIO4_D7
+```
+
+The resulting pin number can be calculated using the following formula:
+```
+number = <bank>*32 + <sub_bank>*8 + pin
+sub_bank = <A = 0, B = 1, C = 2, D = 3>
+
+e.g.
+GPIO3_A1 = 97 (3*32 + 0*8 + 1)
+GPIO4_D7 = 159 (4*32 + 3*8 + 7)
+```
+
+Check the [respective page on the CM3 wiki](https://wiki.radxa.com/Rock3/CM/CM3/pinout) for the pinout.
+
+
 ## Console access
 
 The console is currently not configured.
@@ -111,4 +140,6 @@ The Toolchain is currently set to v1.4.3 (GCC 10), because newer toolchain versi
 ## Device tree overlays
 
 Currently almost all hw-functions are disabled via the `rk3566-radxa-cm3-spa.dtb` file.
-The can be re-enabled by using the upstream `rk3566-radxa-cm3-io.dtb` or `rk3566-radxa-cm3-rpi-cm4-io.dtb` overlay. You can do this by editing the `vars.txt` and `fwup.conf` files.
+The can be re-enabled by using the upstream `rk3566-radxa-cm3-io.dtb` or `rk3566-radxa-cm3-rpi-cm4-io.dtb`
+ overlay. You can do this by editing the `vars.txt` and `fwup.conf` files.
+ You also have to update the `BR2_LINUX_KERNEL_INTREE_DTS_NAME` definition in the `nerves_dwefconfig` file.
