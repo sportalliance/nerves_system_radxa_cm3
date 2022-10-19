@@ -141,5 +141,8 @@ The Toolchain is currently set to v1.4.3 (GCC 10), because newer toolchain versi
 
 Currently almost all hw-functions are disabled via the `rk3566-radxa-cm3-spa.dtb` file.
 The can be re-enabled by using the upstream `rk3566-radxa-cm3-io.dtb` or `rk3566-radxa-cm3-rpi-cm4-io.dtb`
- overlay. You can do this by editing the `vars.txt` and `fwup.conf` files.
- You also have to update the `BR2_LINUX_KERNEL_INTREE_DTS_NAME` definition in the `nerves_dwefconfig` file.
+overlay. You can do this by editing the `vars.txt` and `fwup.conf` files.
+You also have to update the `BR2_LINUX_KERNEL_INTREE_DTS_NAME` definition in the `nerves_dwefconfig` file.
+
+Additional overlays can be enabled in the `vars.txt` file.
+Make sure to update `fwup.conf` to copy the respective overlay to the boot partition!
