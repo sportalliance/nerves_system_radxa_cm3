@@ -3,7 +3,6 @@ BR2_cortex_a55=y
 BR2_ARM_FPU_VFPV4=y
 
 BR2_TAR_OPTIONS="--no-same-owner"
-# Rock-Chip repos - mostly for image generation
 BR2_PACKAGE_RKBIN=y
 
 BR2_BACKUP_SITE="http://dl.nerves-project.org"
@@ -15,7 +14,6 @@ BR2_REPRODUCIBLE=y
 BR2_TOOLCHAIN_EXTERNAL=y
 BR2_TOOLCHAIN_EXTERNAL_CUSTOM=y
 BR2_TOOLCHAIN_EXTERNAL_DOWNLOAD=y
-# Don't update the toolchain for now! Newer toolchains cause a kernel panic because the glibc version is too high
 BR2_TOOLCHAIN_EXTERNAL_URL="https://github.com/nerves-project/toolchains/releases/download/v1.4.3/nerves_toolchain_aarch64_nerves_linux_gnu-linux_x86_64-1.4.3-F3D53E9.tar.xz"
 BR2_TOOLCHAIN_EXTERNAL_CUSTOM_PREFIX="aarch64-nerves-linux-gnu"
 BR2_TOOLCHAIN_EXTERNAL_GCC_10=y
@@ -71,17 +69,13 @@ BR2_PACKAGE_WPA_SUPPLICANT_WPS=y
 BR2_PACKAGE_WPA_SUPPLICANT_WPA3=y
 BR2_PACKAGE_WPA_SUPPLICANT_CTRL_IFACE=y
 
-# BR2_TARGET_ROOTFS_TAR is not set
-
 BR2_TARGET_UBOOT=y
 BR2_TARGET_UBOOT_BUILD_SYSTEM_KCONFIG=y
 BR2_TARGET_UBOOT_CUSTOM_GIT=y
 BR2_TARGET_UBOOT_CUSTOM_REPO_URL="https://github.com/radxa/u-boot.git"
 BR2_TARGET_UBOOT_CUSTOM_REPO_VERSION="ef9f6b1caadf81afe77a5d548c375ad7c9152ead"
-#BR2_TARGET_UBOOT_USE_DEFCONFIG=y
-#BR2_TARGET_UBOOT_BOARD_DEFCONFIG="radxa-cm3-rpi-cm4-io-rk3566"
 BR2_TARGET_UBOOT_USE_CUSTOM_CONFIG=y
-BR2_TARGET_UBOOT_CUSTOM_CONFIG_FILE="${NERVES_DEFCONFIG_DIR}/uboot/uboot.defconfig"
+BR2_TARGET_UBOOT_CUSTOM_CONFIG_FILE="${NERVES_DEFCONFIG_DIR}/uboot/uboot.config"
 BR2_TARGET_UBOOT_CUSTOM_MAKEOPTS="BL31=${BINARIES_DIR}/rkbin/bin/rk35/rk3568_bl31_v1.24.elf spl/u-boot-spl.bin u-boot.dtb u-boot.itb"
 BR2_TARGET_UBOOT_NEEDS_PYLIBFDT=y
 BR2_TARGET_UBOOT_FORMAT_BIN=y

@@ -41,7 +41,10 @@ systems](https://hexdocs.pm/nerves/customizing-systems.html).
 
 ## Flashing
 
+*These instructions have to be executed in the project folder, **not** the nerves_system folder!*
+
 1. Clone, Build and Install the [rkdeveloptool](https://github.com/rockchip-linux/rkdeveloptool.git)
+    - Or install install the `rkflashtool` package from your Linux repository
 1. Compile the project (`mix firmware`)
 1. Create the image file (`fwup -a -d _build/<target name>/nerves/images/image.img -i _build/<target name>/nerves/images/<project name>.fw -t complete`)
 1. Put the board in maskrom mode and conenct it via USB to the PC

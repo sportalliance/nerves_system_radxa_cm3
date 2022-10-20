@@ -18,7 +18,7 @@ defmodule NervesSystemRadxaCm3.MixProject do
       description: description(),
       package: package(),
       deps: deps(),
-      aliases: [loadconfig: [&bootstrap/1], docs: ["docs", &copy_images/1]],
+      aliases: [loadconfig: [&bootstrap/1]],
       docs: docs(),
       preferred_cli_env: %{
         docs: :docs,
@@ -66,17 +66,17 @@ defmodule NervesSystemRadxaCm3.MixProject do
 
   defp deps do
     [
-      {:nerves, "~> 1.5.4 or ~> 1.6.0 or ~> 1.7.15", runtime: false},
-      {:nerves_system_br, "1.18.6", runtime: false},
+      {:nerves, "~> 1.5.4 or ~> 1.6.0 or ~> 1.7.15 or ~> 1.8 or ~> 1.9", runtime: false},
+      {:nerves_system_br, "1.21.1", runtime: false},
       {:nerves_toolchain_aarch64_nerves_linux_gnu, "~> 1.4.3", runtime: false},
       {:nerves_system_linter, "~> 0.4", only: [:dev, :test], runtime: false},
-      {:ex_doc, "~> 0.22", only: :docs, runtime: false}
+      {:ex_doc, ">= 0.22.0", only: :docs, runtime: false},
     ]
   end
 
   defp description do
     """
-    Nerves System - BeagleBone Black, BeagleBone Green, PocketBeagle and more
+    Nerves System - Radxa CM3, Pine64 SOQuartz
     """
   end
 

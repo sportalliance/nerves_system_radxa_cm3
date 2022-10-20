@@ -1,0 +1,3 @@
+- Don't update the toolchain for now! Newer toolchains cause a kernel panic because the glibc version is too high
+- Use a full config file for U-Boot, not a defconfig!
+    - This custom uboot repo has some problems parsing a defconfig file and will load an interactive menu, which will cause the build process to hang indefinitely.
