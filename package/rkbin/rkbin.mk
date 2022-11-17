@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-RKBIN_VERSION = 7d631e0d5b2d373b54d4533580d08fb9bd2eaad4
+RKBIN_VERSION = b0c100f1a260d807df450019774993c761beb79d
 RKBIN_SITE = https://github.com/rockchip-linux/rkbin.git
 RKBIN_SITE_METHOD = git
 RKBIN_INSTALL_IMAGES = YES

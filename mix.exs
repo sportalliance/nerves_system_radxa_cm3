@@ -1,7 +1,7 @@
 defmodule NervesSystemRadxaCm3.MixProject do
   use Mix.Project
 
-  @github_organization "nerves-project"
+  @github_organization "sportalliance"
   @app :nerves_system_radxa_cm3
   @source_url "https://github.com/#{@github_organization}/#{@app}"
   @version Path.join(__DIR__, "VERSION")
@@ -18,7 +18,7 @@ defmodule NervesSystemRadxaCm3.MixProject do
       description: description(),
       package: package(),
       deps: deps(),
-      aliases: [loadconfig: [&bootstrap/1]],
+      aliases: aliases(),
       docs: docs(),
       preferred_cli_env: %{
         docs: :docs,
@@ -68,7 +68,7 @@ defmodule NervesSystemRadxaCm3.MixProject do
     [
       {:nerves, "~> 1.5.4 or ~> 1.6.0 or ~> 1.7.15 or ~> 1.8 or ~> 1.9", runtime: false},
       {:nerves_system_br, "1.21.1", runtime: false},
-      {:nerves_toolchain_aarch64_nerves_linux_gnu, "~> 1.4.3", runtime: false},
+      {:nerves_toolchain_aarch64_nerves_linux_gnu, "~> 1.6.1", runtime: false},
       {:nerves_system_linter, "~> 0.4", only: [:dev, :test], runtime: false},
       {:ex_doc, ">= 0.22.0", only: :docs, runtime: false},
     ]
@@ -115,6 +115,25 @@ defmodule NervesSystemRadxaCm3.MixProject do
       "post-createfs.sh",
       "README.md",
       "VERSION"
+    ]
+  end
+  
+  defp prepare_deps(_) do
+    {_, 0} = System.cmd(
+      "/bin/sh",
+      [
+        "-c",
+        "cp patches/buildroot/* deps/nerves_system_br/patches/buildroot/"
+      ],
+      into: IO.stream(:stdio, :line),
+      stderr_to_stdout: true
+    )
+  end
+  
+  defp aliases do
+    [
+      loadconfig: [&bootstrap/1],
+      compile: ["compile"] #&prepare_deps/1,
     ]
   end
 

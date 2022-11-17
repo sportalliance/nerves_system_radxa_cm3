@@ -20,7 +20,7 @@ cp $ubootName/uboot.img $BINARIES_DIR/u-boot.itb
 # Merge the rockchip binary bootloader blob with the u-boot first-stage (=SPL) loader
 echo creating idbloader.img
 echo $ubootName
-$ubootName/tools/mkimage -n rk3568 -T rksd -d $RKBIN/bin/rk35/rk3566_ddr_1056MHz_v1.08.bin:$ubootName/spl/u-boot-spl.bin $BINARIES_DIR/idbloader.img || exit 1
+$ubootName/tools/mkimage -n rk3568 -T rksd -d $RKBIN/bin/rk35/rk3566_ddr_1056MHz_v1.13.bin:$ubootName/spl/u-boot-spl.bin $BINARIES_DIR/idbloader.img || exit 1
 
 # Copy all dtb files to the respective output folder (fwup will ignore most of these and only include the ones specified in fwup.conf in the final image)
 linuxDir=`find $BINARIES_DIR/../build -name 'vmlinux' -type f | xargs dirname`
