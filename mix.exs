@@ -133,7 +133,7 @@ defmodule NervesSystemRadxaCm3.MixProject do
   defp aliases do
     [
       loadconfig: [&bootstrap/1],
-      compile: ["compile"] #&prepare_deps/1,
+      compile: [&prepare_deps/1,"compile"]
     ]
   end
 
