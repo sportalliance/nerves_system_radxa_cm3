@@ -1,16 +1,18 @@
-# Generic RK3566 (Radxa CM3, Pine64 SOQuartz) Support
+# Generic RK3566 (Radxa CM3, ~~Pine64 SOQuartz~~) Support
 
 
-This is the base Nerves System configuration for the [Radxa CM3](https://wiki.radxa.com/Rock3/CM/CM3) and [Pine64 SOQuartz](https://wiki.pine64.org/wiki/SOQuartz).
+This is the base Nerves System configuration for the [Radxa CM3](https://wiki.radxa.com/Rock3/CM/CM3) and ~~[Pine64 SOQuartz](https://wiki.pine64.org/wiki/SOQuartz)~~.
 
+**Note:** The Radxa CM3 configuration is built by default.
+To create a SOQuartz image you have to adapt some config files to point to the correct device tree overlays.
 
 
 | Feature              | Description                     |
 | -------------------- | ------------------------------- |
 | CPU                  | TODO             |
 | Memory               | TODO                    |
-| Storage              | only eMMC supported (SD-Card support can be enabled by editing the u-boot environment) |
-| Linux kernel         | 4.19 w/ Rockchip patches              |
+| Storage              | only eMMC supported  |
+| Linux kernel         | 6.0               |
 | IEx terminal         | SSH                   |
 | GPIO, I2C, SPI       | Yes - [Elixir Circuits](https://github.com/elixir-circuits) |
 | ADC                  | Untested                             |
@@ -21,12 +23,26 @@ This is the base Nerves System configuration for the [Radxa CM3](https://wiki.ra
 | WiFi                 | Disabled, No working driver |
 | HW Watchdog          | ? |
 
-## TODOs
+## Versioning
 
-- [ ] Kernel >= 5.10
-- [ ] Update packages (RKBIN, u-boot, toolchain, buildroot, ...)
-- [x] Implement A/B firmware updates (update u-boot environment)
-- [ ] Clean up
+The version numbers of this repo are set to be compatible to the [Nerves System RPI4](https://github.com/nerves-project/nerves_system_rpi4).
+
+E.g. v1.20.2 of this repo has the same package dependencies as v1.20.2 of the [Nerves System RPI4](https://github.com/nerves-project/nerves_system_rpi4).
+
+This makes it easier to use this repo as a drop-in replacement for the Raspberry PI 4.
+
+## Building
+
+### Building for the Radxa CM3
+
+This is the default configuration. Just call `mix deps.get` and `mix compile`.
+
+### Building for the SOQuartz
+
+1. Adapt the `fdtfile` definition in `uboot/vars.txt` to point to the correct device tree overlay (`rk3566-soquartz-cm4`).
+    - The file is already automatically built and copied to the output directory.
+1. Also don't forget to include the overlay file in `fwup.conf`
+1. Change the `CONFIG_DEFAULT_DEVICE_TREE` definition in `uboot/uboot.defconfig` to `rk3566-soquartz-cm4io`
 
 ## Using
 
@@ -86,8 +102,10 @@ Check the [respective page on the CM3 wiki](https://wiki.radxa.com/Rock3/CM/CM3/
 ## Console access
 
 The console is currently not configured.
-It can be enabled by modifying the boot arguments in `boot.env` and including the
-relevant device tree overlay (`rk3568-fiq-debugger-uart2m0`).
+It can be enabled by modifying the boot arguments in `uboot/vars.txt`:
+```
+extra_bootargs="earlyprintk console=ttyS2,1500000n8"
+```
 
 ## Provisioning devices
 
@@ -137,15 +155,18 @@ you will be responsible for setting this yourself.
 
 ## Linux, U-Boot and Toolchain versions
 
-Nerves uses the Radxa Kernel and U-Boot repos which add patches for the RK3566 CPU.
-The Toolchain is currently set to v1.4.3 (GCC 10), because newer toolchain versions cause a kernel panic when booting (`FATAL Kernel too old`).
+This Nerves system uses the latest mainline Linux kernel (6.0) and compiler toolchain.
+
+It uses a custom U-Boot repository (version 2022.04) with patches for the RK3566 chips.
 
 ## Device tree overlays
 
 Currently almost all hw-functions are disabled via the `rk3566-radxa-cm3-spa.dtb` file.
-The can be re-enabled by using the upstream `rk3566-radxa-cm3-io.dtb` or `rk3566-radxa-cm3-rpi-cm4-io.dtb`
+They can be re-enabled by using the upstream `rk3566-radxa-cm3-io.dtb` or `rk3566-radxa-cm3-rpi-cm4-io.dtb`
 overlay. You can do this by editing the `vars.txt` and `fwup.conf` files.
-You also have to update the `BR2_LINUX_KERNEL_INTREE_DTS_NAME` definition in the `nerves_dwefconfig` file.
+You also have to update the `BR2_LINUX_KERNEL_INTREE_DTS_NAME` definition in the `nerves_defconfig` file.
 
 Additional overlays can be enabled in the `vars.txt` file.
 Make sure to update `fwup.conf` to copy the respective overlay to the boot partition!
+
+**Note:** The mainline Linux Kernel does not provide any Rockchip specific overlay blobs to enable specific hardware functions (Uarts, I2C, SPI, ...). You have to manually download them from the [Radxa Kernel repo](https://github.com/radxa/kernel/tree/stable-4.19-rock3/arch/arm64/boot/dts/rockchip/overlay), compile them and include them in the image.
