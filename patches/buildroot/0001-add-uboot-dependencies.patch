@@ -13,6 +13,6 @@ diff --git a/boot/uboot/uboot.mk b/boot/uboot/uboot.mk
 +endef
 +UBOOT_PRE_BUILD_HOOKS += UBOOT_COPY_ATF_FIRMWARE
 +
- ifeq ($(BR2_TARGET_UBOOT_CUSTOM_TARBALL),y)
+ ifeq ($(UBOOT_VERSION),custom)
  # Handle custom U-Boot tarballs as specified by the configuration
  UBOOT_TARBALL = $(call qstrip,$(BR2_TARGET_UBOOT_CUSTOM_TARBALL_LOCATION))

@@ -23,6 +23,14 @@ To create a SOQuartz image you have to adapt some config files to point to the c
 | WiFi                 | Disabled, No working driver |
 | HW Watchdog          | ? |
 
+## Versioning
+
+The version numbers of this repo are set to be compatible to the [Nerves System RPI4](https://github.com/nerves-project/nerves_system_rpi4).
+
+E.g. v1.20.2 of this repo has the same package dependencies as v1.20.2 of the [Nerves System RPI4](https://github.com/nerves-project/nerves_system_rpi4).
+
+This makes it easier to use this repo as a drop-in replacement for the Raspberry PI 4.
+
 ## Building
 
 ### Building for the Radxa CM3
@@ -149,7 +157,7 @@ you will be responsible for setting this yourself.
 
 This Nerves system uses the latest mainline Linux kernel (6.0) and compiler toolchain.
 
-It uses a custom U-Boot repository with patches for the RK3566 chips.
+It uses a custom U-Boot repository (version 2022.04) with patches for the RK3566 chips.
 
 ## Device tree overlays
 
