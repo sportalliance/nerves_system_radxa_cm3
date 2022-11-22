@@ -120,10 +120,10 @@ defmodule NervesSystemRadxaCm3.MixProject do
   
   defp prepare_deps(_) do
     {_, 0} = System.cmd(
-      "/bin/sh",
+      "/bin/bash",
       [
         "-c",
-        "cp patches/buildroot/* deps/nerves_system_br/patches/buildroot/"
+        "[[ -d deps/nerves_system_br/patches/buildroot/ ]] && cp patches/buildroot/* deps/nerves_system_br/patches/buildroot/ || :"
       ],
       into: IO.stream(:stdio, :line),
       stderr_to_stdout: true
