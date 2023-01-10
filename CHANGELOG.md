@@ -12,6 +12,44 @@ follows:
    releases, and Linux kernel updates. They're also made to fix bugs and add
    features to the build infrastructure.
 
+## v1.22.0
+
+- Changes
+  - Two Buildroot patch updates and an Erlang minor version update
+  - Nerves Heart v2.0 is now included. Nerves Heart connects the Erlang runtime
+    to a hardware watchdog. v2.0 has numerous updates to improve information
+    that you can get and also has more safeguards to avoid conditions that could
+    cause a device to hang forever.
+
+- Updated dependencies
+  - Linux 6.1.4
+  - [nerves_system_br v1.22.1](https://github.com/nerves-project/nerves_system_br/releases/tag/v1.22.1)
+  - [Erlang/OTP 25.2](https://erlang.org/download/OTP-25.2.README)
+  - [Buildroot 2022.11](http://lists.busybox.net/pipermail/buildroot/2022-December/656980.html)
+  - [nerves_heart v2.0.2](https://github.com/nerves-project/nerves_heart/releases/tag/v2.0.2)
+  - GCC 12.2
+
+## v1.21.1
+
+- Changes
+    - Update Linux kernel to v6.0.9
+    - Update linux kernel defconfig to make it similar to the one on the [RPI4 system](https://github.com/nerves-project/nerves_system_rpi4)
+        - This should fix an issue where the network couldn't connect to the router
+
+- Updated dependencies
+    - [nerves_system_br v1.21.2](https://github.com/nerves-project/nerves_system_br/releases/tag/v1.21.2)
+    - [Erlang/OTP 25.1.2](https://erlang.org/download/OTP-25.1.2.README)
+    - [Buildroot 2022.08.1](http://lists.busybox.net/pipermail/buildroot/2022-October/652816.html)
+
+## v1.20.2
+
+- Dependencies
+   - The dependency changelog can be seen in the [respective changelog](https://github.com/nerves-project/nerves_system_rpi4/releases/tag/v1.20.2) of the RPI4 system.
+
+- Other Updates
+   - Linux Kernel: Upstream v6.0.7
+   - U-Boot Bootloader: Custom v2022.04
+
 ## v1.1.0
 
 Updated Nerves & Dependencies

@@ -156,6 +156,7 @@ you will be responsible for setting this yourself.
 ## Linux, U-Boot and Toolchain versions
 
 This Nerves system uses the latest mainline Linux kernel (6.0) and compiler toolchain.
+The available kernel versions can be found on [kernel.org](https://mirrors.edge.kernel.org/pub/linux/kernel).
 
 It uses a custom U-Boot repository (version 2022.04) with patches for the RK3566 chips.
 
