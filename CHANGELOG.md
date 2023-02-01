@@ -12,6 +12,14 @@ follows:
    releases, and Linux kernel updates. They're also made to fix bugs and add
    features to the build infrastructure.
 
+## v1.22.1
+
+- Changes
+  - Corrected led assignments in linux device tree
+
+- Updated dependencies
+  - Linux 6.1.9
+
 ## v1.22.0
 
 - Changes
