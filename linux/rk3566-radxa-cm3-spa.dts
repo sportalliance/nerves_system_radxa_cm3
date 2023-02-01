@@ -26,23 +26,18 @@
 	leds {
 		compatible = "gpio-leds";
 
-		led-work {
-			label = "work-led";
-			default-state = "off";
-			gpios = <&gpio0 RK_PD3 GPIO_ACTIVE_HIGH>;
-			pinctrl-names = "default";
-			pinctrl-0 = <&work_led_enable_h>;
-			retain-state-suspended;
+		led-act {
+			default-state = "on";
+			gpios = <&gpio4 RK_PA4 GPIO_ACTIVE_LOW>;
+			linux,default-trigger = "disk-activity";
+			pinctrl-0 = <&act_led>;
 		};
 
-		led-diy {
-			label = "diy-led";
+		led-pwr {
 			default-state = "on";
-			gpios = <&gpio0 RK_PD4 GPIO_ACTIVE_HIGH>;
-			linux,default-trigger = "heartbeat";
-			pinctrl-names = "default";
-			pinctrl-0 = <&diy_led_enable_h>;
-			retain-state-suspended;
+			gpios = <&gpio4 RK_PB7 GPIO_ACTIVE_LOW>;
+			linux,default-trigger = "default-on";
+			pinctrl-0 = <&pwr_led>;
 		};
 	};
 
@@ -415,12 +410,12 @@
 	};
 
 	leds {
-		work_led_enable_h: work-led-enable-h {
-			rockchip,pins = <0 RK_PD3 RK_FUNC_GPIO &pcfg_pull_none>;
+		act_led: act-led {
+			rockchip,pins = <4 RK_PA4 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
 
-		diy_led_enable_h: diy-led-enable-h {
-			rockchip,pins = <0 RK_PD4 RK_FUNC_GPIO &pcfg_pull_none>;
+		pwr_led: pwr-led {
+			rockchip,pins = <4 RK_PB7 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
 	};
 
