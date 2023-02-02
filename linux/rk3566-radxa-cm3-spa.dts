@@ -23,20 +23,29 @@
 		#clock-cells = <0>;
 	};
 
-	leds {
+	gpio_leds: gpio-leds {
 		compatible = "gpio-leds";
+		status = "okay";
 
-		led-act {
-			default-state = "on";
-			gpios = <&gpio4 RK_PA4 GPIO_ACTIVE_LOW>;
-			linux,default-trigger = "disk-activity";
-			pinctrl-0 = <&act_led>;
+		user-led {
+			gpios = <&gpio0 6 GPIO_ACTIVE_HIGH>;
+			linux,default-trigger = "none";
+			default-state = "off";
+			pinctrl-0 = <&user_led_set>;
 		};
 
-		led-pwr {
+		pi-led-green {
+			gpios = <&gpio4 4 GPIO_ACTIVE_LOW>;
+			linux,default-trigger = "timer";
+            led-pattern = <2000 2000>;
 			default-state = "on";
-			gpios = <&gpio4 RK_PB7 GPIO_ACTIVE_LOW>;
-			linux,default-trigger = "default-on";
+			pinctrl-0 = <&pi_led>;
+		};
+
+		pwr-led-red {
+			gpios = <&gpio4 15 GPIO_ACTIVE_LOW>;
+			linux,default-trigger = "none";
+			default-state = "on";
 			pinctrl-0 = <&pwr_led>;
 		};
 	};
@@ -410,7 +419,11 @@
 	};
 
 	leds {
-		act_led: act-led {
+		user_led_set: user-led {
+			rockchip,pins = <0 RK_PA6 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+
+		pi_led: pi-led {
 			rockchip,pins = <4 RK_PA4 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
 

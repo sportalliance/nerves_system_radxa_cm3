@@ -1,3 +1,3 @@
 overlays=
-fdtfile=rockchip/rk3566-radxa-cm3-spa.dtb
+fdtfile=rk3566-radxa-cm3-spa.dtb
 extra_bootargs="quiet"
