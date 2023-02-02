@@ -12,10 +12,14 @@ follows:
    releases, and Linux kernel updates. They're also made to fix bugs and add
    features to the build infrastructure.
 
-## v1.22.1
+## v1.22.0-1
 
 - Changes
   - Corrected led assignments in linux device tree
+  - Updated the u-boot environment to read the Linux Kernel and all relevant
+    device-tree overlays from the root partition. The Boot partition mmcblk0p1
+    is now empty and used as a dummy to avoid having to adapt all partition
+    assignments.
 
 - Updated dependencies
   - Linux 6.1.9

@@ -9,8 +9,4 @@ $HOST_DIR/usr/bin/fwup -c -f $NERVES_DEFCONFIG_DIR/fwup-revert.conf -o $TARGET_D
 # Copy the fwup includes to the images dir
 cp -rf $NERVES_DEFCONFIG_DIR/fwup_include $BINARIES_DIR
 
-# Since U-Boot's squashfs support is so slow (sadly), store the Linux
-# kernel in the FAT filesystem instead of /boot. See the fwup.conf for how the Image
-# is put in the FAT filesystem. 
-# Remove everything in /boot because all relevant files are copied to the boot partition anyways.
-rm -f $TARGET_DIR/boot/*
+cp -a $NERVES_DEFCONFIG_DIR/uboot/vars.txt $TARGET_DIR/boot/
