@@ -1,0 +1,74 @@
+diff --git a/arch/arm/mach-rockchip/board.c b/arch/arm/mach-rockchip/board.c
+--- a/arch/arm/mach-rockchip/board.c
++++ b/arch/arm/mach-rockchip/board.c
+@@ -9,6 +9,7 @@
+ #include <fastboot.h>
+ #include <init.h>
+ #include <log.h>
++#include <net.h>
+ #include <ram.h>
+ #include <syscon.h>
+ #include <asm/cache.h>
+@@ -27,8 +28,62 @@
+ 	return 0;
+ }
+ 
++#define MAX_ETHERNET	0x2
++/* copied and adapted from the radxa uboot repo
++ * (https://github.com/radxa/u-boot) to generate
++ * a random mac address if there isn't one set already */
++static int rockchip_set_ethaddr(void)
++{
++	char buf[ARP_HLEN_ASCII + 1], mac[16];
++	u8 ethaddr[ARP_HLEN * MAX_ETHERNET] = {0};
++	int ret, i;
++	bool randomized = false;
++	bool generated_new_mac = false;
++
++	for (i = 0; i < MAX_ETHERNET; i++) {
++		if (i == 0)
++			memcpy(mac, "ethaddr", sizeof("ethaddr"));
++		else
++			sprintf(mac, "eth%daddr", i);
++
++		/* eth_env_get_enetaddr() returns true if the mac is valid */
++		ret = eth_env_get_enetaddr(mac, &ethaddr[i * ARP_HLEN]);
++
++		if (ret != 1) {
++			generated_new_mac = true;
++			if (!randomized) {
++				net_random_ethaddr(&ethaddr[i * ARP_HLEN]);
++				randomized = true;
++			} else {
++				if (i > 0) {
++					memcpy(&ethaddr[i * ARP_HLEN],
++					       &ethaddr[(i - 1) * ARP_HLEN],
++					       ARP_HLEN);
++					ethaddr[i * ARP_HLEN] |= 0x02;
++					ethaddr[i * ARP_HLEN] += (i << 2);
++				}
++			}
++		}
++
++		if (is_valid_ethaddr(&ethaddr[i * ARP_HLEN])) {
++			sprintf(buf, "%pM", &ethaddr[i * ARP_HLEN]);
++			if (i == 0)
++				memcpy(mac, "ethaddr", sizeof("ethaddr"));
++			else
++				sprintf(mac, "eth%daddr", i);
++			env_set(mac, buf);
++		}
++	}
++
++	if(generated_new_mac)
++		env_save();
++
++	return 0;
++}
++
+ int board_late_init(void)
+ {
++	rockchip_set_ethaddr();
+ 	setup_boot_mode();
+ 
+ 	return rk_board_late_init();

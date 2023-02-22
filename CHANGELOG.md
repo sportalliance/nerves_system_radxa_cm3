@@ -12,6 +12,16 @@ follows:
    releases, and Linux kernel updates. They're also made to fix bugs and add
    features to the build infrastructure.
 
+## v1.22.0-2
+
+- Changes
+  - Generate a random mac-address in U-Boot if necessary and pass it to the Linux kernel
+    via the device tree. The generated mac-address is stored in the environment
+    and is read from there on the next boot.
+
+- Updated dependencies
+  - Linux 6.1.13
+
 ## v1.22.0-1
 
 - Changes
