@@ -12,7 +12,26 @@ follows:
    releases, and Linux kernel updates. They're also made to fix bugs and add
    features to the build infrastructure.
 
+## v1.22.1
+
+This is a bug fix and Erlang version bump from 25.2 to 25.2.3.
+
+**This is a breaking update which can't be applied with fwup!**\
+**You need to flash the board manually if you are coming from release v1.22.0 or earlier!**
+
+- Fixes
+  - Set Erlang crash dump timer to 5 seconds, so if an Erlang crash dump does
+    happen, it will run for at most 5 seconds. See erlinit.conf.
+
+- Updated dependencies
+  - [nerves_system_br v1.22.3](https://github.com/nerves-project/nerves_system_br/releases/tag/v1.22.3)
+  - [Buildroot 2022.11.1](https://lore.kernel.org/buildroot/87ilh4dvax.fsf@dell.be.48ers.dk/T/#u)
+  - [Linux 6.1.22](https://mirrors.edge.kernel.org/pub/linux/kernel/v6.x/)
+
 ## v1.22.0-2
+
+**This is a breaking update which can't be applied with fwup!**\
+**You need to flash the board manually if you are coming from release v1.22.0 or earlier!**
 
 - Changes
   - Generate a random mac-address in U-Boot if necessary and pass it to the Linux kernel
@@ -20,9 +39,12 @@ follows:
     and is read from there on the next boot.
 
 - Updated dependencies
-  - Linux 6.1.13
+  - [Linux 6.1.13](https://mirrors.edge.kernel.org/pub/linux/kernel/v6.x/)
 
 ## v1.22.0-1
+
+**This is a breaking update which can't be applied with fwup!**\
+**You need to flash the board manually if you are coming from release v1.22.0 or earlier!**
 
 - Changes
   - Corrected led assignments in linux device tree
@@ -32,7 +54,7 @@ follows:
     assignments.
 
 - Updated dependencies
-  - Linux 6.1.9
+  - [Linux 6.1.9](https://mirrors.edge.kernel.org/pub/linux/kernel/v6.x/)
 
 ## v1.22.0
 
@@ -44,7 +66,7 @@ follows:
     cause a device to hang forever.
 
 - Updated dependencies
-  - Linux 6.1.4
+  - [Linux 6.1.4](https://mirrors.edge.kernel.org/pub/linux/kernel/v6.x/)
   - [nerves_system_br v1.22.1](https://github.com/nerves-project/nerves_system_br/releases/tag/v1.22.1)
   - [Erlang/OTP 25.2](https://erlang.org/download/OTP-25.2.README)
   - [Buildroot 2022.11](http://lists.busybox.net/pipermail/buildroot/2022-December/656980.html)
@@ -59,6 +81,7 @@ follows:
         - This should fix an issue where the network couldn't connect to the router
 
 - Updated dependencies
+    - [Linux 6.0.9](https://mirrors.edge.kernel.org/pub/linux/kernel/v6.x/)
     - [nerves_system_br v1.21.2](https://github.com/nerves-project/nerves_system_br/releases/tag/v1.21.2)
     - [Erlang/OTP 25.1.2](https://erlang.org/download/OTP-25.1.2.README)
     - [Buildroot 2022.08.1](http://lists.busybox.net/pipermail/buildroot/2022-October/652816.html)
