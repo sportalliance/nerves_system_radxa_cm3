@@ -12,6 +12,10 @@ follows:
    releases, and Linux kernel updates. They're also made to fix bugs and add
    features to the build infrastructure.
 
+## v1.22.1-1
+
+- Included ethtool
+
 ## v1.22.1
 
 This is a bug fix and Erlang version bump from 25.2 to 25.2.3.
